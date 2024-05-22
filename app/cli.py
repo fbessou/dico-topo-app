@@ -235,14 +235,11 @@ def make_cli(given_app=None):
 
                     actions_chunks = split_list(bulk_body, 50000)
 
-                    # no security enabled (dev):
-                    es = Elasticsearch("http://localhost:9200")
-                    # security enabled (prod):
-                    # es = Elasticsearch("http://localhost:9200", basic_auth=("elastic","ES8KEY"))
+                    es = app.elasticsearch
                     start_es = time.time()
 
                     for chunk in actions_chunks:
-                        res = es.bulk(index='my_index', body=chunk)
+                        res = es.bulk(body=chunk, request_timeout=60*10)
                         #print(res)
 
                     """
