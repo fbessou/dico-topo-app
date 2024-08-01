@@ -7,34 +7,34 @@
           "analyzer": "standard",
           "fielddata": "true",
           "fields": {
-              "folded": {
-                "type": "text",
-                "analyzer": "folding",
-                "fielddata": "true"
-              },
-              "keyword": {
-                "type": "text",
-                "analyzer": "lowercaseKeyword",
-                "fielddata": "true"
-              }
+            "folded": {
+              "type": "text",
+              "analyzer": "folding",
+              "fielddata": "true"
+            },
+            "keyword": {
+              "type": "text",
+              "analyzer": "lowercaseKeyword",
+              "fielddata": "true"
             }
-          },
+          }
+        },
         "place-label": {
-            "type": "text",
-            "analyzer": "standard",
-            "fielddata": "true",
-            "fields": {
-              "folded": {
-                "type": "text",
-                "analyzer": "folding",
-                "fielddata": "true"
-              },
-              "keyword": {
-                "type": "text",
-                "analyzer": "lowercaseKeyword",
-                "fielddata": "true"
-              }
+          "type": "text",
+          "analyzer": "standard",
+          "fielddata": "true",
+          "fields": {
+            "folded": {
+              "type": "text",
+              "analyzer": "folding",
+              "fielddata": "true"
+            },
+            "keyword": {
+              "type": "text",
+              "analyzer": "lowercaseKeyword",
+              "fielddata": "true"
             }
+          }
         },
         "ctn-label": {
           "type": "text",
@@ -70,9 +70,33 @@
             }
           }
         },
-        "text-date" : {
+        "is-localized": {
+          "type": "boolean"
+        },
+        "text-date": {
           "type": "date",
           "format": "year"
+        },
+        "type": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "keyword"
+        },
+        "place-id": {
+          "type": "keyword"
+        },
+        "localization-insee-code": {
+          "type": "keyword"
+        },
+        "ctn-id": {
+          "type": "keyword"
+        },
+        "dep-id": {
+          "type": "keyword"
+        },
+        "reg-id": {
+          "type": "keyword"
         }
       }
     }
