@@ -54,7 +54,7 @@ class SearchIndexManager(object):
                     },
                     "type_count": {
                         "cardinality": {
-                            "field": "place-id.keyword"
+                            "field": "place-id"
                         }
                     }
                 }
