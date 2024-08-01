@@ -97,61 +97,6 @@
       "reg-id": {
         "type": "keyword"
       }
-    },
-    "place-label": {
-      "type": "text",
-      "analyzer": "standard",
-      "fielddata": "true",
-      "fields": {
-        "folded": {
-          "type": "text",
-          "analyzer": "folding",
-          "fielddata": "true"
-        },
-        "keyword": {
-          "type": "text",
-          "analyzer": "lowercaseKeyword",
-          "fielddata": "true"
-        }
-      }
-    },
-    "ctn-label": {
-      "type": "text",
-      "analyzer": "standard",
-      "fielddata": "true",
-      "fields": {
-        "folded": {
-          "type": "text",
-          "analyzer": "folding",
-          "fielddata": "true"
-        },
-        "keyword": {
-          "type": "text",
-          "analyzer": "lowercaseKeyword",
-          "fielddata": "true"
-        }
-      }
-    },
-    "commune-label": {
-      "type": "text",
-      "analyzer": "standard",
-      "fielddata": "true",
-      "fields": {
-        "folded": {
-          "type": "text",
-          "analyzer": "folding",
-          "fielddata": "true"
-        },
-        "keyword": {
-          "type": "text",
-          "analyzer": "lowercaseKeyword",
-          "fielddata": "true"
-        }
-      }
-    },
-    "text-date": {
-      "type": "date",
-      "format": "year"
     }
   }
 }
