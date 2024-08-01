@@ -4,17 +4,14 @@
       "label": {
         "type": "text",
         "analyzer": "standard",
-        "fielddata": "true",
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
       },
@@ -25,47 +22,39 @@
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
       },
       "ctn-label": {
         "type": "text",
         "analyzer": "standard",
-        "fielddata": "true",
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
       },
       "commune-label": {
         "type": "text",
         "analyzer": "standard",
-        "fielddata": "true",
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
       },
