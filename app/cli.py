@@ -201,46 +201,40 @@ def make_cli(given_app=None):
                     print("(%s items)" % count, end=" ", flush=True)
 
                     bulk_body = []
-                    start_facade = time.time()
+                    start_time = time.time()
+                    es = app.elasticsearch
 
                     is_creation = 'index'
-
-                    if is_creation == 'index':
-                        for obj in all_objs:
+                    for obj in all_objs:
+                        if is_creation == 'index':
                             # REINDEX
                             f_obj = info["facade"](prefix, obj)
                             #bulk create mode
                             bulk_body.append("\n".join(
                                 [json.dumps({"index": {"_index": index_name, "_id": obj.id}}),
-                                 json.dumps(f_obj.get_data_to_index_when_added(False)[0]["payload"])]))
-                    elif is_creation == 'update':
-                        for obj in all_objs:
+                                    json.dumps(f_obj.get_data_to_index_when_added(False)[0]["payload"])]))
+                        elif is_creation == 'update':
                             # REINDEX
                             f_obj = info["facade"](prefix, obj)
                             # bulk update mode (to be used in test mode only as reindex is meant to create, not update)
                             bulk_body.append("\n".join([json.dumps({"update": {"_index": index_name, "_id": obj.id}}), json.dumps({"doc": f_obj.get_data_to_index_when_added(False)[0]["payload"]})]))
-
-                    elif is_creation == 'delete':
-                        for obj in all_objs:
+                        elif is_creation == 'delete':
                             #bulk delete mode (to be used in test mode only as reindex is meant to create, not delete)
                             bulk_body.append(json.dumps({"delete": {"_index": index_name, "_id": obj.id}}))
 
+                        # if bulk_body is over limit, then send bulk request
+                        if len(bulk_body) > 5000:
+                            res = es.bulk(body=bulk_body, request_timeout=60*10)
+                            #print(res)
+                            bulk_body = []
+                    # finish indexing remaining bulk_body
+                    if len(bulk_body) > 0:
+                            res = es.bulk(body=bulk_body, request_timeout=60*10)
+                            #print(res)
 
-                    #print("bulk_body", bulk_body)
-                    print("\ntimer build facade objects : ", time.strftime("%H:%M:%S", time.gmtime((time.time() - start_facade))))
 
-                    #Split the index data in chunks
-                    def split_list(lst, chunk_size):
-                        return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
+                    print("\ntimer building and bulk indexing : ", time.strftime("%H:%M:%S", time.gmtime((time.time() - start_time))))
 
-                    actions_chunks = split_list(bulk_body, 50000)
-
-                    es = app.elasticsearch
-                    start_es = time.time()
-
-                    for chunk in actions_chunks:
-                        res = es.bulk(body=chunk, request_timeout=60*10)
-                        #print(res)
 
                     """
                     #Test with parallel_bulk : SLOWER !!!
@@ -276,10 +270,6 @@ def make_cli(given_app=None):
                         if not success:
                             print("Insert failed: ", info)
                     """
-
-                    print("\ntimer ES : ", time.strftime("%H:%M:%S", time.gmtime((time.time() - start_es))))
-                    print("\ntimer full : ", time.strftime("%H:%M:%S", time.gmtime((time.time() - start_facade))))
-
                     print("OK")
                 except Exception as e:
                     print("NOT OK!  ", str(e))

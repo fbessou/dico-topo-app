@@ -4,17 +4,14 @@
       "label": {
         "type": "text",
         "analyzer": "standard",
-        "fielddata": "true",
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
       },
@@ -25,53 +22,69 @@
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
       },
       "ctn-label": {
         "type": "text",
         "analyzer": "standard",
-        "fielddata": "true",
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
       },
       "commune-label": {
         "type": "text",
         "analyzer": "standard",
-        "fielddata": "true",
         "fields": {
           "folded": {
             "type": "text",
-            "analyzer": "folding",
-            "fielddata": "true"
+            "analyzer": "folding"
           },
           "keyword": {
-            "type": "text",
-            "analyzer": "lowercaseKeyword",
-            "fielddata": "true"
+            "type": "keyword",
+            "normalizer": "lowercaseKeyword"
           }
         }
+      },
+      "is-localized": {
+        "type": "boolean"
       },
       "text-date": {
         "type": "date",
         "format": "year"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "place-id": {
+        "type": "keyword"
+      },
+      "localization-insee-code": {
+        "type": "keyword"
+      },
+      "ctn-id": {
+        "type": "keyword"
+      },
+      "dep-id": {
+        "type": "keyword"
+      },
+      "reg-id": {
+        "type": "keyword"
       }
     }
   }

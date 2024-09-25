@@ -170,8 +170,8 @@ class TestSortPlace(TestBaseServer):
         term = "babelin"
         query = "label.folded:{term}".format(term=term)
         filter = " AND (dep-id:34 OR dep-id:10)"
-        sort = "-place-label.keyword,dep-id.keyword"
-        groupby="groupby[doc-type]=place&groupby[field]=place-id.keyword"
+        sort = "-place-label.keyword,dep-id"
+        groupby="groupby[doc-type]=place&groupby[field]=place-id"
         url = "/search?query={query}&sort={sort}&{groupby}".format(query=query+filter, sort=sort, groupby=groupby)
 
         r, status, res = self.api_get(url)
