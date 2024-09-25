@@ -42,7 +42,7 @@ print("selected_env_file : ", selected_env_file)
 # Launching app with the selected environment #
 ###############################################
 
-flask_app = create_app(config_name=selected_env_file)
+flask_app = create_app(config_name=selected_env_file, with_hardcoded_prefix=True)
 
 if __name__ == "__main__":
     flask_app.run(debug=True, port=5003, host='0.0.0.0')
