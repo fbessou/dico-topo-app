@@ -33,8 +33,6 @@ class Config(object):
     SEARCH_RESULT_PER_PAGE =  parse_var_env('SEARCH_RESULT_PER_PAGE')
 
     ASSETS_DEBUG = parse_var_env('ASSETS_DEBUG') or False
-    #APP_URL_PREFIX = parse_var_env('APP_URL_PREFIX')
-    #APP_FRONTEND_URL = parse_var_env('APP_FRONTEND_URL')
 
     API_VERSION = parse_var_env('API_VERSION')
     APP_URL_PREFIX = parse_var_env('APP_URL_PREFIX')
@@ -52,7 +50,7 @@ class DevelopmentConfig(Config):
 
     @staticmethod
     def init_app(app):
-        print('THIS APP IS IN DEV MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
+        print('THIS APP IS IN PRE-PROD MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
         with app.app_context():
             db_url = app.config["SQLALCHEMY_DATABASE_URI"]
             if not database_exists(db_url):
@@ -60,6 +58,13 @@ class DevelopmentConfig(Config):
             else:
                 pass
 
+class LocalConfig(Config):
+    ENV = 'development'
+    DEBUG = True
+
+    @staticmethod
+    def init_app(app):
+        print('THIS APP IS IN LOCAL DEV MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 class TestConfig(Config):
     ENV = 'testing'
@@ -67,8 +72,15 @@ class TestConfig(Config):
     @staticmethod
     def init_app(app):
         print('THIS APP IS IN TEST MODE. YOU SHOULD NOT SEE THIS IN PRODUCTION.')
+        with app.app_context():
+            db_url = app.config["SQLALCHEMY_DATABASE_URI"]
+            if not database_exists(db_url):
+                create_database(db_url)
+            else:
+                pass
 
 config = {
+    "local": LocalConfig,
     "dev": DevelopmentConfig,
     "prod": Config,
     "test": TestConfig

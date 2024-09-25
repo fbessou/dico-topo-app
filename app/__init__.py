@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
 from flask import Flask, Blueprint
-from flask_migrate import Migrate
+#from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
@@ -38,7 +38,7 @@ class PrefixMiddleware(object):
             return self.app(environ, start_response)
 
 
-def create_app(config_name="dev", with_hardcoded_prefix=True):
+def create_app(config_name="dev"):
     """ Create the application """
     app = Flask(__name__)
     if not isinstance(config_name, str):
@@ -50,24 +50,17 @@ def create_app(config_name="dev", with_hardcoded_prefix=True):
         import os
         dir_path = os.path.dirname(os.path.realpath(__file__))
         env_filename = os.path.join(dir_path, '..', '%s.env' % config_name)
-        print(env_filename)
+        print(".env file to be loaded : ", env_filename)
         load_dotenv(env_filename, verbose=True)
         from config import config
         app.config.from_object(config[config_name])
 
-    #app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["APP_URL_PREFIX"])
-    def with_url_prefix(url):
-        from flask import request
-        return "".join((request.host_url[:-1], app.config['APP_URL_PREFIX'], url))
-
-    app.with_url_prefix = with_url_prefix
-
     db.init_app(app)
     config[config_name].init_app(app)
-    migrate = Migrate(app, db)
+    #migrate = Migrate(app, db)
 
-    if with_hardcoded_prefix:
-        app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["APP_URL_PREFIX"])
+    print("Mounted with with_hardcoded_prefix : ", app.config["APP_URL_PREFIX"])
+    app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["APP_URL_PREFIX"])
 
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) if app.config['ELASTICSEARCH_URL'] else None
 

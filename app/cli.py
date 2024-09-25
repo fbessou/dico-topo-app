@@ -57,7 +57,7 @@ def make_cli(given_app=None):
     """
 
     @click.group()
-    @click.option('--config', default="dev")
+    @click.option('--config', default="dev", help="--config=local/dev/prod/test to select appropriate .env file to use, default= dev")
     def cli(config):
         """ Generates the client"""
         click.echo("Loading the application")
