@@ -29,7 +29,8 @@ class SearchIndexManager(object):
                 "sort": [
                     #  {"creation": {"order": "desc"}}
                     *sort_criteriae
-                ]
+                ],
+                "track_total_hits": True,
             }
 
             if len(ranges) > 0:
