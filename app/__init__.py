@@ -1,3 +1,5 @@
+from sys import prefix
+
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
 from flask import Flask, Blueprint
@@ -14,7 +16,6 @@ from app.api.response_factory import JSONAPIResponseFactory
 db = SQLAlchemy()
 
 api_bp = Blueprint('api_bp', __name__)
-app_bp = Blueprint('app_bp', __name__, template_folder='templates', static_folder='static')
 
 
 @event.listens_for(Engine, "connect")
@@ -23,22 +24,7 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute("PRAGMA foreign_keys=ON")
     cursor.close()
 
-
-class PrefixMiddleware(object):
-
-    def __init__(self, app, prefix=''):
-        self.app = app
-        self.prefix = prefix
-
-    def __call__(self, environ, start_response):
-
-        if environ['PATH_INFO'].startswith(self.prefix):
-            environ['PATH_INFO'] = environ['PATH_INFO'][len(self.prefix):]
-            environ['SCRIPT_NAME'] = self.prefix
-            return self.app(environ, start_response)
-
-
-def create_app(config_name="dev", with_hardcoded_prefix=True):
+def create_app(config_name="staging"):
     """ Create the application """
     app = Flask(__name__)
     if not isinstance(config_name, str):
@@ -58,12 +44,6 @@ def create_app(config_name="dev", with_hardcoded_prefix=True):
     db.init_app(app)
     config[config_name].init_app(app)
     #migrate = Migrate(app, db)
-
-    if with_hardcoded_prefix:
-        print("Mounted with with_hardcoded_prefix : ", app.config["APP_URL_PREFIX"])
-        app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=app.config["APP_URL_PREFIX"])
-    else:
-        print("Mounted without hardcoded_prefix")
 
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) if app.config['ELASTICSEARCH_URL'] else None
 
@@ -111,7 +91,6 @@ def create_app(config_name="dev", with_hardcoded_prefix=True):
         # generate search endpoint
         app.api_url_registrar.register_search_route(decorators=[export_to('linkedplaces')])
 
-    app.register_blueprint(app_bp)
-    app.register_blueprint(api_bp)
+        app.register_blueprint(api_bp, url_prefix=app.config["API_URL_PREFIX"])
 
     return app

@@ -5,8 +5,8 @@ from flask import request, current_app
 from app import api_bp, JSONAPIResponseFactory
 
 
-@api_bp.route("/api/<api_version>")
-def api_get_capabilities(api_version):
+@api_bp.route("/")
+def api_get_capabilities():
     if "capabilities" in request.args:
         host = request.host_url[:-1]
         if "localhost" not in host and "127.0.0" not in host:

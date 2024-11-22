@@ -1,9 +1,7 @@
-
 import os
 from sqlalchemy_utils import database_exists, create_database
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
 
 def parse_var_env(var_name):
     v = os.environ.get(var_name)
@@ -13,40 +11,33 @@ def parse_var_env(var_name):
         v = False
     return v
 
-
 class Config(object):
     SECRET_KEY = parse_var_env('SECRET_KEY')
     ENV ='production'
-    DEBUG = False
+    DEBUG = parse_var_env('DEBUG')
 
     SQLALCHEMY_DATABASE_URI = 'sqlite:////' + os.path.join(basedir, parse_var_env('DATABASE_URI'))
-    SQLALCHEMY_TRACK_MODIFICATIONS = parse_var_env('SQLALCHEMY_TRACK_MODIFICATIONS') or False
-    SQLALCHEMY_ECHO = parse_var_env('SQLALCHEMY_ECHO') or False
-    SQLALCHEMY_RECORD_QUERIES = parse_var_env('SQLALCHEMY_RECORD_QUERIES') or False
-
-    DB_DROP_AND_CREATE_ALL = parse_var_env('DB_DROP_AND_CREATE_ALL') or False
-    GENERATE_FAKE_DATA = parse_var_env('GENERATE_FAKE_DATA') or False
+    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_RECORD_QUERIES = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ELASTICSEARCH_URL = parse_var_env('ELASTICSEARCH_URL')
     DEFAULT_INDEX_NAME = parse_var_env('DEFAULT_INDEX_NAME')
     INDEX_PREFIX = parse_var_env('INDEX_PREFIX')
     SEARCH_RESULT_PER_PAGE =  parse_var_env('SEARCH_RESULT_PER_PAGE')
 
-    ASSETS_DEBUG = parse_var_env('ASSETS_DEBUG') or False
-
-    API_VERSION = parse_var_env('API_VERSION')
     APP_URL_PREFIX = parse_var_env('APP_URL_PREFIX')
     API_URL_PREFIX = parse_var_env('API_URL_PREFIX')
+    API_VERSION = parse_var_env('API_VERSION')
 
     @staticmethod
     def init_app(app):
         pass
 
-
-class DevelopmentConfig(Config):
+class StagingConfig(Config):
 
     ENV = 'development'
-    DEBUG = True
+    DEBUG = parse_var_env('DEBUG')
 
     @staticmethod
     def init_app(app):
@@ -60,7 +51,7 @@ class DevelopmentConfig(Config):
 
 class LocalConfig(Config):
     ENV = 'development'
-    DEBUG = True
+    DEBUG = parse_var_env('DEBUG')
 
     @staticmethod
     def init_app(app):
@@ -81,7 +72,7 @@ class TestConfig(Config):
 
 config = {
     "local": LocalConfig,
-    "dev": DevelopmentConfig,
+    "staging": StagingConfig,
     "prod": Config,
     "test": TestConfig
 }

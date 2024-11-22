@@ -299,7 +299,7 @@ class JSONAPIRouteRegistrar(object):
 
     def register_search_route(self, decorators=()):
 
-        search_rule = '/api/{api_version}/search'.format(api_version=self.api_version)
+        search_rule = '/search'.format(api_version=self.api_version)
 
         def search_endpoint():
             start_time = time.time()
@@ -532,8 +532,7 @@ class JSONAPIRouteRegistrar(object):
         # ================================
         # Collection resource GET route
         # ================================
-        get_collection_rule = '/api/{api_version}/{type_plural}'.format(
-            api_version=self.api_version,
+        get_collection_rule = '/{type_plural}'.format(
             type_plural=f_class.TYPE_PLURAL
         )
 
@@ -674,8 +673,7 @@ class JSONAPIRouteRegistrar(object):
         # =======================
         # Single resource GET route
         # =======================
-        single_obj_rule = '/api/{api_version}/{type_plural}/<id>'.format(
-            api_version=self.api_version,
+        single_obj_rule = '/{type_plural}/<id>'.format(
             type_plural=f_class.TYPE_PLURAL
         )
 
@@ -756,8 +754,7 @@ class JSONAPIRouteRegistrar(object):
         # ===============================
         # Relationships self link route
         # ===============================
-        rule = '/api/{api_version}/{type_plural}/<id>/relationships/{rel_name}'.format(
-            api_version=self.api_version,
+        rule = '/{type_plural}/<id>/relationships/{rel_name}'.format(
             type_plural=facade_class.TYPE_PLURAL, rel_name=rel_name
         )
 
@@ -844,8 +841,7 @@ class JSONAPIRouteRegistrar(object):
         # ===================================
         # Relationships related link route
         # ===================================
-        rule = '/api/{api_version}/{type_plural}/<id>/{rel_name}'.format(
-            api_version=self.api_version,
+        rule = '/{type_plural}/<id>/{rel_name}'.format(
             type_plural=facade_class.TYPE_PLURAL, rel_name=rel_name
         )
 
@@ -967,8 +963,7 @@ class JSONAPIRouteRegistrar(object):
         :return:
         """
 
-        collection_obj_rule = '/api/{api_version}/{type_plural}'.format(
-            api_version=self.api_version,
+        collection_obj_rule = '/{type_plural}'.format(
             type_plural=facade_class.TYPE_PLURAL
         )
 
@@ -1104,8 +1099,7 @@ class JSONAPIRouteRegistrar(object):
         # ===============================
         # Relationships route
         # ===============================
-        rule = '/api/{api_version}/{type_plural}/<id>/relationships/{rel_name}'.format(
-            api_version=self.api_version,
+        rule = '/{type_plural}/<id>/relationships/{rel_name}'.format(
             type_plural=facade_class.TYPE_PLURAL, rel_name=rel_name
         )
 
@@ -1191,8 +1185,7 @@ class JSONAPIRouteRegistrar(object):
         :return:
         """
 
-        single_obj_rule = '/api/{api_version}/{type_plural}/<id>'.format(
-            api_version=self.api_version,
+        single_obj_rule = '/{type_plural}/<id>'.format(
             type_plural=facade_class.TYPE_PLURAL
         )
 
@@ -1331,8 +1324,7 @@ class JSONAPIRouteRegistrar(object):
         # ===============================
         # Relationships route
         # ===============================
-        rule = '/api/{api_version}/{type_plural}/<id>/relationships/{rel_name}'.format(
-            api_version=self.api_version,
+        rule = '/{type_plural}/<id>/relationships/{rel_name}'.format(
             type_plural=facade_class.TYPE_PLURAL, rel_name=rel_name
         )
 
@@ -1425,8 +1417,7 @@ class JSONAPIRouteRegistrar(object):
         :return:
         """
 
-        single_obj_rule = '/api/{api_version}/{type_plural}/<id>'.format(
-            api_version=self.api_version,
+        single_obj_rule = '/{type_plural}/<id>'.format(
             type_plural=facade_class.TYPE_PLURAL
         )
 
@@ -1473,8 +1464,7 @@ class JSONAPIRouteRegistrar(object):
         :return:
         """
 
-        resource_relationship_rule = '/api/{api_version}/{type_plural}/<id>/relationships/{rel_name}'.format(
-            api_version=self.api_version,
+        resource_relationship_rule = '/{type_plural}/<id>/relationships/{rel_name}'.format(
             type_plural=facade_class.TYPE_PLURAL,
             rel_name=rel_name
         )

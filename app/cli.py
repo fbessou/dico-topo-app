@@ -57,7 +57,7 @@ def make_cli(given_app=None):
     """
 
     @click.group()
-    @click.option('--config', default="dev", help="--config=local/dev/prod/test to select appropriate .env file to use, default= dev")
+    @click.option('--config', default="staging", help="--config=local/staging/prod/test to select appropriate .env file to use, default= staging")
     def cli(config):
         """ Generates the client"""
         click.echo("Loading the application")
@@ -260,9 +260,9 @@ def make_cli(given_app=None):
                                 actions.append(action)
                             return actions
                     
-                    # no security enabled (dev):
+                    # no security enabled (local development):
                     es = Elasticsearch("http://localhost:9200")
-                    # security enabled (prod):
+                    # security enabled (staging and prod):
                     # es = Elasticsearch("http://localhost:9200", basic_auth=("elastic","ES8KEY"))
                     start_es = time.time()
                     
