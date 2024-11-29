@@ -1,6 +1,6 @@
 import re
 
-from Levenshtein._levenshtein import distance
+from Levenshtein import distance
 from flask import current_app
 
 from app.api.citable_content.facade import CitableContentFacade

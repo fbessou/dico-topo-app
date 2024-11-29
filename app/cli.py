@@ -110,6 +110,7 @@ def make_cli(given_app=None):
     @click.command("db-validate")
     @click.option('--between', required=False)
     def db_validate(between):
+        #TODO: below schema no longer exists, new URL might be https://github.com/WorldHistoricalGazetteer/whgazetteer/tree/main/datasets/static/validate
         SCHEMA_URL = "https://raw.githubusercontent.com/kgeographer/whgazetteer/master/datasets/static/validate/lpf-schema.json"
         getAPIUrl = lambda \
                 id: "http://localhost:5003/api/1.0/places/{0}?export=linkedplaces&without-relationships".format(id)

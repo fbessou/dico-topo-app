@@ -39,7 +39,7 @@ class JSONAPIRouteRegistrar(object):
         self.url_prefix = url_prefix
 
         # make a dict from models and their __tablename__
-        self.models = dict([(cls.__tablename__, cls) for cls in db.Model._decl_class_registry.values()
+        self.models = dict([(cls.__tablename__, cls) for cls in db.Model.registry._class_registry.values()
                             if isinstance(cls, type) and issubclass(cls, db.Model)])
 
     @staticmethod
